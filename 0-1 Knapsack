@@ -122,10 +122,136 @@ int main()
  cout<<knapSack3(int W, int wt[], int val[], int n);  
 }
 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Variations 
+1. Subset sum.
+2.Equal sum partition.
+3.count subset sum.
+4.Minimum subset difference.
+5.Target sum.
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+1. Subset
+//bottom-up
+ bool knap(int N,int arr[],int sum)
+     {
+         bool dp[N+1][sum+1];
+         
+         
+         for(int i=0;i<=N;i++)
+         {
+             for(int j=0;j<=sum;j++)
+              {
+                  if(i==0)                         //imp
+                      dp[i][j]=false;
+                  if(j==0)
+                     dp[i][j]=true;      //imp
+                  
+              }
+             
+         }
+         
+         
+         for(int i=1;i<=N;i++)
+         {
+             for(int j=1;j<=sum;j++)
+              {
+                 if(arr[i-1]>j)
+                     dp[i][j]=dp[i-1][j];
+                else
+                   dp[i][j]=dp[i-1][j] || dp[i-1][j-arr[i-1]];
+              }
+             
+         }
+         
+         return dp[N][sum];
+     }
 
 
 
+    bool isSubsetSum(int N, int arr[], int sum){
+         
+         return knap(N,arr,sum);
+    }
+};
+
+2.Equal sum partition.
+   logic.find subset of whole sum/2.
 
 
+class Solution {
+public:
+    bool subset(vector<int> &nums,int sum,int n)
+    {
+        int dp[n+1][sum+1];
+        
+        for(int i=0;i<=n;i++)
+        {
+            
+            for(int j=0;j<=sum;j++)
+            {
+                
+                if(i==0)
+                      dp[i][j]=false;
+                if(j==0)
+                     dp[i][j]=true;
+            }
+        }
+        
+        
+        for(int i=1;i<=n;i++)
+        {
+            
+            for(int j=1;j<=sum;j++)
+            {
+                
+                if(nums[i-1]>j)
+                    dp[i][j]=dp[i-1][j];
+                else
+                    dp[i][j]=dp[i-1][j] || dp[i-1][j-nums[i-1]];
+            }
+        }
+        return dp[n][sum];   
+    }
+    
+    bool canPartition(vector<int>& nums) {
+    
+        
+        int sum=0;
+        for(int i=0;i<nums.size();i++)
+              sum=sum+nums[i];
+        
+        if(sum%2!=0)
+             return false;
+        
+        return subset(nums,sum/2,nums.size());
+        
+    }
+};
+
+3.Count subset sum
+
+int countSum(int arr[], int n, int sum)
+	{
+	    int mat[n+1][sum+1];
+    for (int i = 1; i <= sum; i++)
+        mat[0][i] = 0;
+        
+      for (int i = 0; i <= n; i++)
+          mat[i][0] = 1;
+        
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=sum;j++)
+            {
+                if(arr[i-1]>j)
+                  mat[i][j]=(mat[i-1][j])%M;
+                else
+                  mat[i][j]= (mat[i-1][j]+ mat[i-1][j-arr[i-1]])%M;
+            }
+        }
+         
+        return mat[n][sum];      
+	}
+	  
 
 
