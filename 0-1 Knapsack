@@ -1,1 +1,131 @@
+// what is Dp
+ //It is optimization over recursion. there are two types of DP. 1. Top down(memoization) 2. Bottom Up (Tabular).
+ //These two properties must be satisfied by problems i.e. 1.Overlapping  Subproblem 2.Optimal substructure. 
+
+ //   1.Recursive 
+#include<iostream>
+using namespace std;
+class Solution
+{
+    public:
+    
+    int knap(int W,int wt[],int val[],int n)
+    {
+        if(n==0 || W==0)
+           return 0;
+         
+         
+        if(wt[n-1]>W)
+           return v[n][W]=knap(W,wt,val,n-1);
+        else
+          return v[n][W]=max(knap(W,wt,val,n-1),val[n-1]+knap(W-wt[n-1],wt,val,n-1));
+        
+        
+    }
+    
+    //Function to return max value that can be put in knapsack of capacity W.
+    int knapSack1(int W, int wt[], int val[], int n) 
+    {  
+       
+       return knap(W,wt,val,n,v);
+    }
+};
+
+
+//   2.Top down 
+class Solution
+{
+    public:
+    
+    int knap(int W,int wt[],int val[],int n,vector<vector<int>> &v)
+    {
+        if(n==0 || W==0)
+           return 0;
+         
+         if(v[n][W]!=-1)
+             return v[n][W];
+        if(wt[n-1]>W)
+           return v[n][W]=knap(W,wt,val,n-1,v);
+        else
+          return v[n][W]=max(knap(W,wt,val,n-1,v),val[n-1]+knap(W-wt[n-1],wt,val,n-1,v));
+        
+        
+    }
+    
+    //Function to return max value that can be put in knapsack of capacity W.
+    int knapSack2(int W, int wt[], int val[], int n) 
+    {  
+        vector<vector<int>>v(n+1,vector<int>(W+1,-1));
+       return knap(W,wt,val,n,v);
+    }
+};
+
+// 3. Bottom Up
+int knap(int W,int wt[],int val[],int n)
+    {
+        int dp[n+1][W+1];
+        
+        for(int i=0;i<=n;i++)
+        {
+            
+            for(int j=0;j<=W;j++)
+            {
+                if(i==0 || j==0)
+                   dp[i][j]=0;
+            }
+            
+        }
+        
+        
+        
+         for(int i=1;i<=n;i++)
+        {
+            
+            for(int j=1;j<=W;j++)
+            {
+                if(wt[i-1] > j)
+                   dp[i][j]=dp[i-1][j];
+                else
+                    dp[i][j]=max(dp[i-1][j],val[i-1]+dp[i-1][j-wt[i-1]]);
+            }
+            
+        }
+        
+        return dp[n][W];
+        
+    }
+    
+    //Function to return max value that can be put in knapsack of capacity W.
+    int knapSack3(int W, int wt[], int val[], int n) 
+    {  
+        
+       return knap(W,wt,val,n);
+    }
+};
+
+
+
+int main()
+{
+  int W,n;
+  cin>>W>>n;
+  
+  int val[n];
+  for(auto i=0;i<n;i++)
+     cin>>val[i];
+  int wt[n];
+  for(auto i=0;i<n;i++)
+     cin>>wt[i];
+     
+  cout<<knapSack1(int W, int wt[], int val[], int n);    
+ cout<<knapSack2(int W, int wt[], int val[], int n);
+ cout<<knapSack3(int W, int wt[], int val[], int n);  
+}
+
+
+
+
+
+
+
 
